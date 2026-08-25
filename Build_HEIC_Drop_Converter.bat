@@ -47,11 +47,13 @@ if errorlevel 1 goto :build_error
 py -3 -m pip install --upgrade PySide6 Pillow pillow-heif pyinstaller
 if errorlevel 1 goto :build_error
 
-echo.
-echo Generating application icon...
-if exist "generate_icon.py" (
-    py -3 "generate_icon.py"
-    if errorlevel 1 goto :build_error
+if not exist "%ICON%" (
+    echo.
+    echo Application icon not found - generating it...
+    if exist "generate_icon.py" (
+        py -3 "generate_icon.py"
+        if errorlevel 1 goto :build_error
+    )
 )
 
 if not exist "%ICON%" (

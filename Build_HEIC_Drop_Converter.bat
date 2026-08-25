@@ -22,14 +22,6 @@ if not exist "%SCRIPT%" (
     exit /b 1
 )
 
-if not exist "%ICON%" (
-    echo [ERROR] %ICON% was not found in:
-    echo %CD%
-    echo.
-    pause
-    exit /b 1
-)
-
 where py >nul 2>nul
 if errorlevel 1 (
     echo [ERROR] Python launcher "py" was not found.
@@ -54,6 +46,18 @@ if errorlevel 1 goto :build_error
 
 py -3 -m pip install --upgrade PySide6 Pillow pillow-heif pyinstaller
 if errorlevel 1 goto :build_error
+
+echo.
+echo Generating application icon...
+if exist "generate_icon.py" (
+    py -3 "generate_icon.py"
+    if errorlevel 1 goto :build_error
+)
+
+if not exist "%ICON%" (
+    echo [ERROR] %ICON% was not found and could not be generated.
+    goto :build_error
+)
 
 echo.
 echo [3/4] Cleaning previous build...

@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+build/
+dist/
+*.spec
+HEIC-Drop-Converter.ico
+HEIC-Drop-Converter.png

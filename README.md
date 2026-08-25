@@ -109,9 +109,11 @@ This repository contains everything needed to build the application yourself on 
 
 ```text
 heic_drop_converter.py
-HEIC-Drop-Converter.ico
+generate_icon.py
 Build_HEIC_Drop_Converter.bat
 ```
+
+The builder automatically generates `HEIC-Drop-Converter.ico` and `HEIC-Drop-Converter.png` if the icon generator is present.
 
 3. Double-click:
 
@@ -138,6 +140,12 @@ Install the dependencies:
 
 ```powershell
 py -3 -m pip install --upgrade PySide6 Pillow pillow-heif pyinstaller
+```
+
+Generate the application artwork and Windows icon:
+
+```powershell
+py -3 generate_icon.py
 ```
 
 Then build the executable:
@@ -167,8 +175,9 @@ Normal ZIP/7Z compression may reduce the executable only slightly because a PyIn
 |---|---|
 | `heic_drop_converter.py` | Main application source code |
 | `Build_HEIC_Drop_Converter.bat` | One-click Windows EXE builder |
-| `HEIC-Drop-Converter.ico` | Windows executable/application icon |
-| `HEIC-Drop-Converter.png` | Project artwork / icon image |
+| `generate_icon.py` | Generates the project artwork and Windows icon |
+| `HEIC-Drop-Converter.ico` | Generated Windows executable/application icon |
+| `HEIC-Drop-Converter.png` | Generated project artwork / icon image |
 | `requirements.txt` | Python dependencies |
 
 ## 🛠️ Built With

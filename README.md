@@ -2,6 +2,8 @@
 
 A fast, lightweight Windows desktop application for converting common image formats to **HEIC/HEIF using HEVC compression** while preserving important photo metadata.
 
+**App Developer: Huzaifah**
+
 ## ✨ Features
 
 - 🖼️ Convert images to **HEIC**
@@ -21,13 +23,9 @@ A fast, lightweight Windows desktop application for converting common image form
 - 📂 Save beside the original files or to a custom folder
 - 📝 Automatically avoids overwriting existing files
 - 🧵 Conversion runs in the background so the interface remains responsive
-- 🖥️ Modern dark desktop interface
-
----
+- 🖥️ Modern dark PySide6 desktop interface
 
 ## 📸 Supported Input Formats
-
-HEIC Drop Converter supports:
 
 - `.jpg`
 - `.jpeg`
@@ -38,8 +36,6 @@ HEIC Drop Converter supports:
 - `.bmp`
 
 All supported formats are converted to `.heic`.
-
----
 
 ## 🎚️ Quality Settings
 
@@ -57,13 +53,9 @@ The default quality is **85%**.
 
 > Higher quality generally produces larger files, while lower quality prioritizes file-size reduction.
 
----
-
 ## 🧾 Metadata Preservation
 
-HEIC Drop Converter is designed to retain important photo information during conversion.
-
-### Preserved
+The app is designed to retain important photo information during conversion:
 
 - EXIF metadata
 - Camera date/time
@@ -74,29 +66,14 @@ HEIC Drop Converter is designed to retain important photo information during con
 
 The converter preserves the stored orientation rather than physically rotating the image.
 
----
-
 ## 📂 Output Options
 
-You can choose between two output modes.
+Choose either:
 
-### Same Folder
+- **Same folder as source** — places the new `.heic` beside the original image.
+- **Custom folder** — sends all converted images to a destination you choose.
 
-Converted `.heic` files are placed beside their original images.
-
-```text
-Photos/
-├── IMG_0001.jpg
-├── IMG_0001.heic
-├── IMG_0002.jpg
-└── IMG_0002.heic
-```
-
-### Custom Folder
-
-Choose a separate destination for all converted files.
-
-Existing files are not overwritten. If a filename already exists, the converter automatically creates a unique filename:
+Existing files are never overwritten. If a filename already exists, the app automatically creates a unique name such as:
 
 ```text
 IMG_0001.heic
@@ -104,91 +81,97 @@ IMG_0001 (1).heic
 IMG_0001 (2).heic
 ```
 
----
-
 ## 🖱️ How to Use
 
-### 1. Add Images
+1. Drag photos into the application, click **Add Files**, or click **Add Folder**.
+2. Set the desired **HEIC Quality**.
+3. Choose the output location.
+4. Click **Start Conversion**.
+5. Follow the live progress and storage-saving statistics in the interface.
 
-You can either:
+Folders are searched recursively for supported images.
 
-- Drag and drop photos into the application
-- Click **Add Files**
-- Click **Add Folder**
+## 🏗️ Build the Windows EXE
 
-Folders are searched recursively for supported image files.
+This repository contains everything needed to build the application yourself on Windows.
 
-### 2. Select Quality
+### Requirements
 
-Use the **HEIC Quality** slider to choose your desired compression level.
+- Windows 10 or Windows 11
+- Python 3.x from [python.org](https://www.python.org/)
+- The Python launcher (`py`) enabled during Python installation
+- Internet access during the first build so Python packages can be installed
 
-### 3. Select Output Location
+### Easiest method
 
-Choose:
-
-- **Same folder as source**, or
-- **Custom folder**
-
-### 4. Start Conversion
-
-Click **Start Conversion**.
-
-The application displays:
-
-- Current file
-- Original size
-- Conversion status
-- HEIC size
-- Overall progress
-- Total space saved
-
----
-
-## 📊 Conversion Statistics
-
-After conversion, the application reports the total results:
+1. Download or clone this repository.
+2. Keep these files together in the same folder:
 
 ```text
-Converted: 100
-Failed: 0
-
-Original: 1.2 GB
-HEIC: 420 MB
-Space saved: 65.0%
+heic_drop_converter.py
+HEIC-Drop-Converter.ico
+Build_HEIC_Drop_Converter.bat
 ```
 
-The application calculates the total output size and percentage of storage saved.
+3. Double-click:
 
----
+```text
+Build_HEIC_Drop_Converter.bat
+```
 
-## 🧵 Batch Processing
+4. The builder automatically installs/updates:
+   - PySide6
+   - Pillow
+   - pillow-heif
+   - PyInstaller
+5. When the build completes, the finished application will be located at:
 
-Multiple images can be added to the conversion queue and processed in one operation.
+```text
+dist\HEIC-Drop-Converter.exe
+```
 
-The application provides live progress updates and reports successful and failed conversions individually.
+The script also opens the `dist` folder automatically after a successful build.
 
----
+### Manual build
 
-## ⚠️ Notes
+Install the dependencies:
 
-- HEIC encoding quality and resulting file size depend on the source image and selected quality setting.
-- A lower quality setting does **not** guarantee a specific percentage reduction in file size.
-- Metadata preservation depends on metadata being present in the original file.
-- Original pixel dimensions are retained during conversion.
+```powershell
+py -3 -m pip install --upgrade PySide6 Pillow pillow-heif pyinstaller
+```
 
----
+Then build the executable:
 
-## 📥 Download
+```powershell
+py -3 -m PyInstaller `
+  --noconfirm `
+  --clean `
+  --windowed `
+  --onefile `
+  --name "HEIC-Drop-Converter" `
+  --icon "HEIC-Drop-Converter.ico" `
+  --add-data "HEIC-Drop-Converter.ico;." `
+  --collect-all pillow_heif `
+  "heic_drop_converter.py"
+```
 
-Download the latest **HEIC Drop Converter `.exe`** from the Releases section of this repository.
+## 📦 Why the EXE Is Relatively Large
 
-No Python installation or additional dependencies are required.
+The standalone executable contains the Python runtime together with **PySide6/Qt**, **Pillow**, and the **pillow-heif / HEIF-HEVC libraries**. This allows the application to run on another Windows PC without requiring the user to install Python or those dependencies separately.
 
-Simply download the executable and run it.
+Normal ZIP/7Z compression may reduce the executable only slightly because a PyInstaller one-file build already contains compressed application data.
 
----
+## 🧰 Project Files
 
-## 🏗️ Built With
+| File | Purpose |
+|---|---|
+| `heic_drop_converter.py` | Main application source code |
+| `Build_HEIC_Drop_Converter.bat` | One-click Windows EXE builder |
+| `HEIC-Drop-Converter.ico` | Windows executable/application icon |
+| `HEIC-Drop-Converter.png` | Project artwork / icon image |
+| `requirements.txt` | Python dependencies |
+
+## 🛠️ Built With
 
 | Technology | Purpose |
 |---|---|
@@ -197,13 +180,12 @@ Simply download the executable and run it.
 | Pillow | Image processing |
 | pillow-heif | HEIF/HEIC encoding |
 | HEVC | Image compression codec |
-
----
+| PyInstaller | Standalone Windows executable packaging |
 
 ## 📌 Version
 
 **HEIC Drop Converter v3.0**
 
----
+## 👨‍💻 Developer
 
-
+**Huzaifah**

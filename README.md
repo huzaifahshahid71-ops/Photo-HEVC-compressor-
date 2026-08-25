@@ -113,7 +113,7 @@ generate_icon.py
 Build_HEIC_Drop_Converter.bat
 ```
 
-The builder automatically generates `HEIC-Drop-Converter.ico` and `HEIC-Drop-Converter.png` if the icon generator is present.
+If the artwork/icon files are missing, the builder automatically generates `HEIC-Drop-Converter.ico` and `HEIC-Drop-Converter.png` using `generate_icon.py`.
 
 3. Double-click:
 

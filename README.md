@@ -206,8 +206,4 @@ Simply download the executable and run it.
 
 ---
 
-## 📄 License
 
-Add your preferred license here.
-
-If this project is intended to remain personal/private, a license can be omitted.
